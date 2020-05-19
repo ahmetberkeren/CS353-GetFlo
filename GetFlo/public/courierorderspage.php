@@ -1,1 +1,1 @@
-<?php
+<?php include "templates/header.php";

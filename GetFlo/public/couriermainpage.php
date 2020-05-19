@@ -2,12 +2,6 @@
 require "../config.php";
 require "../common.php";
 session_start();
-if (isset($_POST['courierAccount'])) {
-    header("Location: ./courieraccountpage.php");
-}
-if (isset($_POST['courierOrders'])) {
-    header("Location: ./courierorderspage.php");
-}
 if (isset($_GET["orderid"]) && $_GET["orderid"] > 0) {
     try {
         $connection = new PDO($dsn, $username, $password, $options);
@@ -42,6 +36,17 @@ else if (isset($_GET["orderid"])) {
     }
 }
 
+?>
+
+<?php
+if (isset($_POST['courierAccount'])) {
+    echo "Account";
+    header("Location: ./courieraccountpage.php");
+}
+if (isset($_POST['courierOrders'])) {
+    echo "Orders";
+    header("Location: ./courierorderspage.php");
+}
 ?>
 <ul>
     <li>
@@ -107,13 +112,14 @@ else if (isset($_GET["orderid"])) {
   <?php }?>
     </li>
     <br>
-    <li>
-        <input type="submit" name="courierAccount" value="My Account">
-    </li>
-    <br>
-    <li>
-        <input type="submit" name="courierOrders" value="Current Orders">
-    </li>
+    <form method="post">
+        <li>
+        <input type="submit" name="courierAccount"
+               class="button" value="My Account" /></li>
+        <br><li>
+        <input type="submit" name="courierOrders"
+               class="button" value="Current Orders" /></li>
+    </form>
 </ul>
 
 <?php include "templates/footer.php"; ?>
