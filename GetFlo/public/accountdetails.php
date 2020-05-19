@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
             "gender"       => $_POST['cusgender'],
             "phone_number"       => $_POST['cusphonenumber']
         ];
-        $id = $_Session["accountID"];
+        $id = $_SESSION["accountID"];
         $sql = "UPDATE customers
             SET nane = :cusname,
               gender = :cusgender,
@@ -34,7 +34,7 @@ if (isset( $_SESSION["accountID"] ) )
 {
     try {
         $connection = new PDO($dsn, $username, $password, $options);
-        $id = $_Session["accountID"];
+        $id = $_SESSION["accountID"];
         $sql = "SELECT name , password , gender , phone_number FROM customers WHERE id = :id";
         $statement = $connection->prepare($sql);
         $statement->bindValue(':id', $id);
