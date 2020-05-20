@@ -8,7 +8,7 @@ session_start();
 
 if ( isset ( $_POST['MyAccount']))
 {
-    header("Location: ./accountdetails.php");
+    header("Location: ./customeraccountpage.php");
 }
 
 if ( isset($_POST["MyOrders"]))
