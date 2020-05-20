@@ -77,3 +77,16 @@ CREATE DATABASE test;
         complaintID int NOT NULL REFERENCES complaint_form(complaintID) ON DELETE CASCADE,
         PRIMARY KEY (serviceID, complaintID)
     );
+
+    CREATE TABLE flowers(
+       flowerID int PRIMARY KEY AUTO_INCREMENT,
+       name varchar(255) NOT NULL,
+       sellerID int NOT NULL REFERENCES flowersellers(sellerID) ON DELETE CASCADE ,
+       scent varchar(255),
+       colour varchar(255),
+       price float(8,4) NOT NULL,
+       photo varchar(255),
+       kind varchar(255),
+       amount int,
+       details varchar(255)
+    );
