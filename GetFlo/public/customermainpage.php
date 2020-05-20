@@ -91,6 +91,7 @@ if ( isset($_POST["MyOrders"]))
                         <td><?php echo escape($row["colour"]); ?></td>
                         <td><?php echo escape($row["scent"]); ?></td>
                         <td><?php echo escape($row["details"]); ?></td>
+                        <td><?php echo escape($row["amount"]); ?></td>
                         <td><?php echo escape($row["price"]); ?>TL</td>
                         <td><a href="customerbuypage.php?flowerid=<?php echo escape($row["flowerID"]); ?>">Buy</a></td>
                     </tr>
