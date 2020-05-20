@@ -38,6 +38,14 @@ CREATE DATABASE test;
     );
     ALTER TABLE couriers AUTO_INCREMENT = 3001;
 
+    CREATE TABLE customer_service(
+         name varchar(255) NOT NULL,
+         serviceID INT PRIMARY KEY AUTO_INCREMENT REFERENCES users(ID) ON DELETE CASCADE ,
+         username varchar(255) NOT NULL UNIQUE REFERENCES users(username) ON DELETE CASCADE ,
+         password varchar(255) NOT NULL REFERENCES users(password) ON DELETE CASCADE
+    );
+    ALTER TABLE customer_service AUTO_INCREMENT = 4001;
+
     CREATE TABLE orders(
         orderID int PRIMARY KEY AUTO_INCREMENT,
         order_time date,
@@ -52,8 +60,20 @@ CREATE DATABASE test;
     CREATE TABLE is_assigned(
         orderID int NOT NULL PRIMARY KEY REFERENCES orders(orderID) ON DELETE CASCADE,
         courierID int REFERENCES couriers(courierID) ON DELETE CASCADE ON UPDATE CASCADE ,
-        sellerID int NOT NULL REFERENCES flowersellers(sellerID) ON DELETE CASCADE
+        sellerID int NOT NULL REFERENCES flowersellers(sellerID) ON DELETE CASCADE,
+        customerID int NOT NULL REFERENCES customers(customerID) ON DELETE CASCADE
     );
 
+    CREATE TABLE complaint_form(
+        complaintID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        message varchar(255) NOT NULL,
+        subject varchar(255),
+        is_answered boolean,
+        orderID int NOT NULL REFERENCES orders(orderID) ON DELETE CASCADE
+    );
 
-
+    CREATE TABLE receives(
+        serviceID int NOT NULL,
+        complaintID int NOT NULL REFERENCES complaint_form(complaintID) ON DELETE CASCADE,
+        PRIMARY KEY (serviceID, complaintID)
+    );
