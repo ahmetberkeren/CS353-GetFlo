@@ -27,6 +27,13 @@ CREATE DATABASE test;
         password varchar(255) NOT NULL REFERENCES  users(password) ON DELETE CASCADE
     );
     ALTER TABLE flowersellers AUTO_INCREMENT = 2001;
+CREATE TABLE flowergrower(
+        name varchar(255) NOT NULL,
+        growerID INT PRIMARY KEY AUTO_INCREMENT REFERENCES users(ID) ON DELETE CASCADE ,
+        username varchar(255) NOT NULL UNIQUE REFERENCES users(username) ON DELETE CASCADE ,
+        password varchar(255) NOT NULL REFERENCES  users(password) ON DELETE CASCADE
+    );
+    ALTER TABLE flowergrower AUTO_INCREMENT = 2001;
     CREATE TABLE couriers(
         name varchar(255) NOT NULL,
         rating float(8,4),
@@ -57,6 +64,27 @@ CREATE DATABASE test;
         is_accepted boolean
     );
 
+CREATE TABLE OrderForSeller(
+        orderID int PRIMARY KEY AUTO_INCREMENT,
+        order_time date,
+        payment_type varchar(255) NOT NULL,
+        delivery_address varchar(255) NOT NULL,
+        delivery_type varchar(255),
+        note varchar(255),
+        status varchar(255),
+        is_accepted boolean
+    );
+
+CREATE TABLE seller_creates(
+        orderID int NOT NULL PRIMARY KEY REFERENCES OrderForSeller(orderID) ON DELETE CASCADE,
+        sellerID int NOT NULL REFERENCES flowersellers(sellerID) ON DELETE CASCADE
+    );
+
+CREATE TABLE seller_order_has(
+        flowerID int NOT NULL PRIMARY KEY REFERENCES flowers(flowerID) ON DELETE CASCADE,
+        orderID int NOT NULL REFERENCES OrderForSeller(orderID) ON DELETE CASCADE
+    );
+
     CREATE TABLE is_assigned(
         orderID int NOT NULL PRIMARY KEY REFERENCES orders(orderID) ON DELETE CASCADE,
         courierID int REFERENCES couriers(courierID) ON DELETE CASCADE ON UPDATE CASCADE ,
@@ -74,7 +102,16 @@ CREATE TABLE seller_has(
         sellerID int NOT NULL REFERENCES flowersellers(sellerID) ON DELETE CASCADE,
 	seller_stock int
     );
-
+CREATE TABLE grower_has(
+        growerID int NOT NULL REFERENCES flowerGrower(growerID) ON DELETE CASCADE,
+        flowerID int NOT NULL PRIMARY KEY REFERENCES flowers(flowerID) ON DELETE CASCADE,
+	grower_stock int
+    );
+CREATE TABLE bought_from(
+        orderID int NOT NULL PRIMARY KEY REFERENCES OrderForSeller(orderID) ON DELETE CASCADE,
+        growerID int NOT NULL REFERENCES flowerGrower(growerID) ON DELETE CASCADE,
+	is_accepted_for_seller int
+    );
     CREATE TABLE complaint_form(
         complaintID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         message varchar(255) NOT NULL,

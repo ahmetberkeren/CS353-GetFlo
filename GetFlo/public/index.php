@@ -183,6 +183,64 @@ if (isset($_POST['submitCourier'])) {
 
 }
 
+if (isset($_POST['submitGrower'])) {
+    require "../config.php";
+
+    try {
+        $connection = new PDO($dsn, $username, $password, $options);
+
+        $new_user = array(
+            "name" => $_POST['grname'],
+            "username"  => $_POST['grusername'],
+            "password"     => $_POST['grpassword'],
+        );
+
+        $sql = sprintf(
+            "INSERT INTO %s (%s) values (%s)",
+            "flowergrower",
+            implode(", ", array_keys($new_user)),
+            ":" . implode(", :", array_keys($new_user))
+        );
+
+        $statement = $connection->prepare($sql);
+        $statement->execute($new_user);
+
+        $sql = "SELECT * FROM flowergrower WHERE username = :username AND password = :password";
+
+        $signupusername = $_POST['grusername'];
+        $signuppassword = $_POST['grpassword'];
+
+        $statement = $connection->prepare($sql);
+        $statement->bindParam(':username', $signupusername, PDO::PARAM_STR);
+        $statement->bindParam(':password', $signuppassword, PDO::PARAM_STR);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+        foreach ($result as $row)
+            $result2 = $row['growerID'];
+
+        $new_user = array(
+            "ID" => $result2,
+            "username"  => $_POST['grusername'],
+            "password"     => $_POST['grpassword'],
+            "type" => "Grower"
+        );
+        $sql = sprintf(
+            "INSERT INTO %s (%s) values (%s)",
+            "users",
+            implode(", ", array_keys($new_user)),
+            ":" . implode(", :", array_keys($new_user))
+        );
+
+        $statement = $connection->prepare($sql);
+        $statement->execute($new_user);
+
+    } catch(PDOException $error) {
+        echo $sql . "<br>" . $error->getMessage();
+    }
+
+}
+
 if (isset($_POST['submitLogin'])) {
     try {
         require "../config.php";
@@ -289,6 +347,22 @@ if (isset($_POST['submitLogin'])) {
                 <label for="couphonenumber">Phone Number</label>
                 <input type="text" name="couphonenumber" id="couphonenumber">
                 <input type="submit" name="submitCourier" value="Sign Up">
+            </form>
+
+        </li>
+
+<li>
+            <h2>Sign Up As Grower</h2>
+
+            <form method="post">
+                <label for="grname">Name</label>
+                <input type="text" name="grname" id="grname">
+                <label for="grusername">Username</label>
+                <input type="text" name="grusername" id="grusername">
+                <label for="grpassword">Password</label>
+                <input type="text" name="grpassword" id="grpassword">
+                <label for="couphonenumber">Phone Number</label>
+                <input type="submit" name="submitGrower" value="Sign Up">
             </form>
 
         </li>
