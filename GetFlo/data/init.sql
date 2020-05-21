@@ -64,6 +64,17 @@ CREATE DATABASE test;
         customerID int NOT NULL REFERENCES customers(customerID) ON DELETE CASCADE
     );
 
+CREATE TABLE customer_order_has(
+        flowerID int NOT NULL PRIMARY KEY REFERENCES flowers(flowerID) ON DELETE CASCADE,
+        orderID int REFERENCES orders(orderID) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE seller_has(
+        flowerID int NOT NULL PRIMARY KEY REFERENCES flowers(flowerID) ON DELETE CASCADE,
+        sellerID int NOT NULL REFERENCES flowersellers(sellerID) ON DELETE CASCADE,
+	seller_stock int
+    );
+
     CREATE TABLE complaint_form(
         complaintID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         message varchar(255) NOT NULL,
