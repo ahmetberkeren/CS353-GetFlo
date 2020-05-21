@@ -108,7 +108,7 @@ if ( isset($_POST["MyOrders"]))
     <?php
     $connection = new PDO($dsn, $username, $password, $options);
 
-    $sql = "Select distinct kind From flowers  Where amount > 0";
+    $sql = "SELECT DISTINCT kind FROM flowers NATURAL JOIN seller_has WHERE seller_stock > 0";
 
     $tmpID = $_SESSION['accountID'];
 
@@ -127,7 +127,7 @@ if ( isset($_POST["MyOrders"]))
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($result as $row) { ?>
+        <?php foreach ($kindresult as $row) { ?>
             <tr>
                 <td><a href="customermainpage.php?kind=<?php echo escape($row["kind"]); ?>"><?php echo escape($row["kind"]); ?></a></td>
             </tr>
