@@ -135,6 +135,5 @@ CREATE TABLE bought_from(
        price float(8,4) NOT NULL,
        photo varchar(255),
        kind varchar(255),
-       amount int,
        details varchar(255)
     );

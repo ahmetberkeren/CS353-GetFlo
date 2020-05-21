@@ -5,7 +5,7 @@ session_start(); ?>
 <?php
 $connection = new PDO($dsn, $username, $password, $options);
 
-$sql = "Select * From flowers Where flowerID = :flowerID";
+$sql = "Select * From flowers NATURAL JOIN seller_has Where flowerID = :flowerID";
 
 $tmpID = $_GET['flowerid'];
 
@@ -15,7 +15,7 @@ $statement->execute();
 
 $result = $statement->fetchAll();
 foreach ($result as $row)
-    $amount = $row['amount'];
+    $amount = $row['seller_stock'];
 ?>
 <?php
 if (isset($_POST['submitBuy']) && $_POST['orderamount'] > $amount) {
@@ -44,7 +44,7 @@ else if (isset($_POST['submitBuy'])) {
     $statement = $connection->prepare($sql);
     $statement->execute($new_order);
 
-    $sql = "Update flowers Set amount = :amount Where flowerID = :flowerID";
+    $sql = "Update seller_has Set seller_stock = :amount Where flowerID = :flowerID";
 
     $new_amount = $amount - $_POST['orderamount'];
     $tmpID = $_GET['flowerid'];

@@ -25,9 +25,10 @@ if ( isset($_POST["MyOrders"]))
         <?php
         if (isset($_GET["kind"])) {
             try {
+
                 $connection = new PDO($dsn, $username, $password, $options);
 
-                $sql = "Select * From flowers  Where amount > 0 AND kind = :kind";
+                $sql = "Select * From flowers NATURAL JOIN seller_has Where seller_stock > 0 AND kind = :kind";
 
                 $tmpkind = $_GET["kind"];
 
@@ -44,7 +45,7 @@ if ( isset($_POST["MyOrders"]))
         else {
             $connection = new PDO($dsn, $username, $password, $options);
 
-            $sql = "Select * From flowers  Where amount > 0";
+            $sql = "Select * From flowers NATURAL JOIN seller_has Where seller_stock > 0";
 
             $statement = $connection->prepare($sql);
             $statement->execute();
@@ -91,7 +92,7 @@ if ( isset($_POST["MyOrders"]))
                         <td><?php echo escape($row["colour"]); ?></td>
                         <td><?php echo escape($row["scent"]); ?></td>
                         <td><?php echo escape($row["details"]); ?></td>
-                        <td><?php echo escape($row["amount"]); ?></td>
+                        <td><?php echo escape($row["seller_stock"]); ?></td>
                         <td><?php echo escape($row["price"]); ?>TL</td>
                         <td><a href="customerbuypage.php?flowerid=<?php echo escape($row["flowerID"]); ?>">Buy</a></td>
                     </tr>
