@@ -24,10 +24,10 @@ if (isset($_POST['finish'])) {
     ?>
 
 <li>
-    <textarea name="subject" rows="5" cols="40" placeholder="Subject..">
+    <textarea name="subject" rows="5" cols="40" placeholder="Subject.." required>
     </textarea>
 
-    <textarea name="complaint" rows="40" cols="40" placeholder="Enter your complaint..">
+    <textarea name="complaint" rows="40" cols="40" placeholder="Enter your complaint.." required>
     </textarea>
 
     <input type = "submit" name = "finish" value = "Finish" >
