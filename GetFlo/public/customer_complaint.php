@@ -1,4 +1,4 @@
-<?php
+<?php include "templates/header.php";
 require "../config.php";
 require "../common.php";
 session_start(); ?>
@@ -6,7 +6,7 @@ session_start(); ?>
 if (isset($_POST['finish'])) {
     try {
         $connection = new PDO($dsn, $username, $password, $options);
-        $tmpID = $_SESSION['orderID'];
+        $tmpID = $_GET['orderid'];
         $subject = $_POST["subject"];
         $message = $_POST["message"];
         $answer = false;
@@ -24,7 +24,7 @@ if (isset($_POST['finish'])) {
 }
 ?>
 <?php
-$tmpID = $_SESSION['orderID'];
+$tmpID = $_GET['orderid'];
 echo "<h1 align='center' style = 'color: red'> {dfdfs} </h1>";
 ?>
 <html>
