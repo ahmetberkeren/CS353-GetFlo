@@ -1,4 +1,4 @@
-<?php
+<?php include "templates/header.php";
 require "../config.php";
 require "../common.php";
 session_start(); ?>
@@ -6,9 +6,9 @@ session_start(); ?>
 if (isset($_POST['finish'])) {
     try {
         $connection = new PDO($dsn, $username, $password, $options);
-        $tmpID = $_SESSION['orderID'];
+        $tmpID = $_GET['orderid'];
         $subject = $_POST["subject"];
-        $message = $_POST["message"];
+        $message = $_POST["complaint"];
         $answer = false;
         $sql = "Insert Into complaint_form(orderID, message, subject , is_answered ) Values(:tmpID ,:message , :subject , :answer)";
         $statement = $connection->prepare($sql);
@@ -21,25 +21,28 @@ if (isset($_POST['finish'])) {
     } catch (PDOException $error) {
         echo $sql . "<br>" . $error->getMessage();
     }
+    header("Location: ./customermainpage.php");
 }
 ?>
 <?php
-$tmpID = $_SESSION['orderID'];
-echo "<h1 align='center' style = 'color: red'> {dfdfs} </h1>";
+$tmpID = $_GET['orderid'];
 ?>
 <html>
 <body>
-<li align = "center" >
+<form method="post">
+<li >
+    Subject:
     <textarea  name="subject" rows="5" cols="40" placeholder="Subject.." >
     </textarea>
 </li>
-<li align = "center"  >
+<li >
+    Message
     <textarea  name="complaint" rows="10" cols="40" placeholder="Enter your complaint.." >
     </textarea>
 </li>
-<li align = "center">
-    <input type = "submit" name = "finish" value = "Finish" > </input>
-</li>
+    <input type="submit" name="finish"
+           class="button" value="Finish" />
+</form>
 </body>
 </html>
 
