@@ -13,12 +13,15 @@ if(isset($_POST['back'])) {
         <?php
         $connection = new PDO($dsn, $username, $password, $options);
 
-        $sql = "Select * From orders natural join is_assigned";
+        $sql = "Select * From orders natural join is_assigned WHERE sellerID = :ID AND (status = :status1 OR status = :status2)";
 
         $tmpID = $_SESSION['accountID'];
-
+        $status1 = "Sent to Seller";
+        $status2 = "Courier Rejected";
         $statement = $connection->prepare($sql);
         $statement->bindParam(':ID', $tmpID, PDO::PARAM_STR);
+        $statement->bindParam(':status1', $status1, PDO::PARAM_STR);
+        $statement->bindParam(':status2', $status2, PDO::PARAM_STR);
         $statement->execute();
 
         $result = $statement->fetchAll();
@@ -32,34 +35,22 @@ if(isset($_POST['back'])) {
                 <thead>
                 <tr>
                     <th>Seller</th>
-                    <th>OrderID</th>
                     <th>Delivery Address</th>
                     <th>Payment Type</th>
                     <th>Delivery Type</th>
                     <th>Additional Notes</th>
+                    <th>Assign</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($result as $row) { ?>
                     <tr>
-                        <td><?php
-                            $sql = "Select * From order natural join is_assigned WHERE sellerID = :sellerID";
-
-                            $tmpID = $row['sellerID'];
-
-                            $statement = $connection->prepare($sql);
-                            $statement->bindParam(':growerID', $tmpID, PDO::PARAM_STR);
-                            $statement->execute();
-
-                            $result2 = $statement->fetchAll();
-                            foreach ($result2 as $row2)
-
-                            echo escape($tmpID); ?></td>
-                        <td><?php echo escape($row["orderID"]); ?></td>
+                        <td><?php echo escape($row["sellerID"]); ?></td>
                         <td><?php echo escape($row["delivery_address"]); ?></td>
                         <td><?php echo escape($row["payment_type"]); ?></td>
                         <td><?php echo escape($row["delivery_type"]); ?></td>
                         <td><?php echo escape($row["note"]); ?></td>
+                        <td><a href="sellerassignpage.php?orderid=<?php echo escape($row["orderID"]); ?>">Couriers</a></td>
                     </tr>
                 <?php } ?>
                 </tbody>
