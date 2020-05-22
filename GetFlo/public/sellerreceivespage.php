@@ -34,7 +34,7 @@ if(isset($_POST['back'])) {
             <table>
                 <thead>
                 <tr>
-                    <th>Seller</th>
+                    <th>Customer</th>
                     <th>Delivery Address</th>
                     <th>Payment Type</th>
                     <th>Delivery Type</th>
@@ -45,7 +45,19 @@ if(isset($_POST['back'])) {
                 <tbody>
                 <?php foreach ($result as $row) { ?>
                     <tr>
-                        <td><?php echo escape($row["sellerID"]); ?></td>
+                        <td><?php
+                            $sql = "Select * From customers WHERE customerID = :customerID";
+
+                            $tmpID = $row['customerID'];
+
+                            $statement = $connection->prepare($sql);
+                            $statement->bindParam(':customerID', $tmpID, PDO::PARAM_STR);
+                            $statement->execute();
+
+                            $result2 = $statement->fetchAll();
+                            foreach ($result2 as $row2)
+                                $tmpID = $row2['name'];
+                            echo escape($tmpID); ?></td>
                         <td><?php echo escape($row["delivery_address"]); ?></td>
                         <td><?php echo escape($row["payment_type"]); ?></td>
                         <td><?php echo escape($row["delivery_type"]); ?></td>
