@@ -33,7 +33,7 @@ CREATE TABLE flowergrower(
         username varchar(255) NOT NULL UNIQUE REFERENCES users(username) ON DELETE CASCADE ,
         password varchar(255) NOT NULL REFERENCES  users(password) ON DELETE CASCADE
     );
-    ALTER TABLE flowergrower AUTO_INCREMENT = 2001;
+    ALTER TABLE flowergrower AUTO_INCREMENT = 5001;
     CREATE TABLE couriers(
         name varchar(255) NOT NULL,
         rating float(8,4),

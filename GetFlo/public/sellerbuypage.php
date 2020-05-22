@@ -6,26 +6,8 @@ require "../common.php";
 session_start();
 
 
-if ( isset ( $_POST['MyAccount']))
-{
-    header("Location: ./selleraccountpage.php");
-}
 
-if ( isset($_POST["BuyFlowers"]))
-{
-    header("Location: ./sellerbuypage.php");
-}
 
-if ( isset($_POST["ReveivedOrderss"]))
-{
-    header("Location: ./sellerreceivedorderspage.php");
-}
-
-if ( isset($_POST["MyOrders"]))
-{
-	
-    header("Location: ./sellermyorderspage.php");
-}
 ?>
 
 
@@ -36,7 +18,7 @@ if ( isset($_POST["MyOrders"]))
             try {
                 $connection = new PDO($dsn, $username, $password, $options);
 
-                $sql = "Select * From flowers  Where kind = :kind and flowerID in (select flowerID from seller_has where seller_stock > 0)";
+                $sql = "Select * From flowers natural join grower_has where kind = :kind AND grower_stock>0";
 
                 $tmpkind = $_GET["kind"];
 
@@ -53,7 +35,7 @@ if ( isset($_POST["MyOrders"]))
         else {
             $connection = new PDO($dsn, $username, $password, $options);
 
-            $sql = "Select * From flowers  Where flowerID in (select flowerID from seller_has where seller_stock > 0)";
+            $sql = "Select * From flowers natural join grower_has where grower_stock>0";
 
 
             $statement = $connection->prepare($sql);
@@ -70,41 +52,39 @@ if ( isset($_POST["MyOrders"]))
             <table>
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Seller</th>
+                    <th>Grower</th>
                     <th>Kind</th>
                     <th>Colour</th>
                     <th>Scent</th>
                     <th>Details</th>
                     <th>Amount</th>
                     <th>Price</th>
-		    <th>Remove</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($result as $row) { ?>
                     <tr>
-                        <td><?php echo escape($row["name"]); ?></td>
-                        <td><?php
-                            $sql = "Select * From flowersellers WHERE sellerID = :sellerID";
 
-                            $tmpID = $row['sellerID'];
+                        <td><?php
+                            $sql = "Select * From flowers natural join grower_has  Where grower_stock>0";
+
+
 
                             $statement = $connection->prepare($sql);
-                            $statement->bindParam(':sellerID', $tmpID, PDO::PARAM_STR);
                             $statement->execute();
 
                             $result2 = $statement->fetchAll();
                             foreach ($result2 as $row2)
-                                $tmpID = $row2['company_name'];
-                            echo escape($tmpID); ?></td>
+                                 ?></td>
+                        <td><?php echo escape($row["growerID"]); ?></td>
                         <td><?php echo escape($row["kind"]); ?></td>
                         <td><?php echo escape($row["colour"]); ?></td>
                         <td><?php echo escape($row["scent"]); ?></td>
                         <td><?php echo escape($row["details"]); ?></td>
-                        <td><?php echo escape($row["amount"]); ?></td>
+                        <td><?php echo escape($row["grower_stock"]); ?></td>
                         <td><?php echo escape($row["price"]); ?>TL</td>
-                        <td><a href="delete-from-seller.php?id=<?php echo escape($row["flowerID"]); ?>">Remove</a></td>
+
+                        <td><a href="sellerpaypage.php?flowerid=<?php echo escape($row["flowerID"]); ?>">Buy</a></td>
                     </tr>
                 <?php } ?>
                 </tbody>
@@ -118,7 +98,7 @@ if ( isset($_POST["MyOrders"]))
     <?php
     $connection = new PDO($dsn, $username, $password, $options);
 
-    $sql = "Select distinct kind From flowers  Where amount > 0";
+    $sql = "Select distinct kind From flowers natural join grower_has  Where grower_stock>0";
 
     $tmpID = $_SESSION['accountID'];
 
@@ -139,43 +119,13 @@ if ( isset($_POST["MyOrders"]))
         <tbody>
         <?php foreach ($result as $row) { ?>
             <tr>
-                <td><a href="sellermainpage.php?kind=<?php echo escape($row["kind"]); ?>"><?php echo escape($row["kind"]); ?></a></td>
+                <td><a href="sellerpaypage.php?kind=<?php echo escape($row["kind"]); ?>"><?php echo escape($row["kind"]); ?></a></td>
             </tr>
         <?php } ?>
         </tbody>
     </table>
-<br>
-    <li>
-        <form  method =  "post" >
 
-            <input type = "submit" name = "MyAccount" value=" My Account" >
-        </form>
-    </li>
-    <br>
-    <li>
-        <form method = "post" >
 
-            <input type = "submit" name = "BuyFlowers" value =  "Buy Flowers" >
-        </form>
-
-    </li>
-    <br>
-    <li>
-        <form method = "post" >
-
-            <input type = "submit" name = "ReceivedOrderss" value =  "Received Orderss" >
-        </form>
-
-    </li>
-<br>
-<li>
-        <form method = "post" >
-
-            <input type = "submit" name = "MyOrders" value =  "My Orders" >
-        </form>
-
-    </li>
-<br>
 </ul>
 
 
