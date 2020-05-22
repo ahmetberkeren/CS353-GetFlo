@@ -13,7 +13,7 @@ if ( isset ( $_POST['MyAccount']))
 
 if ( isset($_POST["MyOrders"]))
 {
-    header("Location: ./customerorderspage.php");
+    header("Location: ./customer_orderspage.php");
 }
 
 
