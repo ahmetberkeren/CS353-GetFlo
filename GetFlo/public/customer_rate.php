@@ -43,7 +43,7 @@ echo "<h1 align='center' style = 'color: red'> {$tmpID} </h1>";
 ?>
 <html>
 <body>
-<li align = "left" >
+<li align = "center" >
     <p>
         Rate Seller
         <select name="rate_seller">
