@@ -57,7 +57,6 @@ else if (isset($_POST['submitBuy'])) {
     header("Location: ./customermainpage.php");
 }
 ?>
-<li>
     <h2>Create Order</h2>
 
     <form method="post">
@@ -74,6 +73,5 @@ else if (isset($_POST['submitBuy'])) {
         <input type="submit" name="submitBuy" value="Buy">
     </form>
 
-</li>
 
 <?php include "templates/footer.php"; ?>
