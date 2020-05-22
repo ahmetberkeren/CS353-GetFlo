@@ -260,3 +260,10 @@ input[type="button"]:hover,
 button:hover {
     background-color: royalblue;
 }
+
+body {
+    font-family: system-ui;
+    background: #f06d06;
+    color: black;
+    text-align: center;
+}
