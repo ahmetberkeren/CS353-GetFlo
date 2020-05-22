@@ -8,7 +8,7 @@
             try {
                 $connection = new PDO($dsn, $username, $password, $options);
                 $sql = "Select orderID, status From orders Natural Join Customers Where usedID = :userID";
-                $temp = $_SESSION["userID"];
+                $temp = $_SESSION["accountID"];
                 $statement = $connection->prepare($sql);
                 $statement->bindParam(':userID', $temp, PDO::PARAM_STR);
                 $statement->execute();
