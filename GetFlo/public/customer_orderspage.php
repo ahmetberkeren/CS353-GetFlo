@@ -74,6 +74,6 @@
                 </tbody>
             </table>
         <?php } else { ?>
-            > There is no empty.
+            > There is no oder.
         <?php }?>
     <br>
