@@ -13,7 +13,7 @@ if(isset($_POST['back'])) {
         <?php
         $connection = new PDO($dsn, $username, $password, $options);
 
-        $sql = "Select * From order natural join is_assigned";
+        $sql = "Select * From orders natural join is_assigned";
 
         $tmpID = $_SESSION['accountID'];
 

@@ -16,9 +16,9 @@ if ( isset($_POST["BuyFlowers"]))
     header("Location: ./sellerbuypage.php");
 }
 
-if ( isset($_POST["ReveivedOrderss"]))
+if ( isset($_POST["ReceivedOrders"]))
 {
-    header("Location: ./sellerreceivedorderspage.php");
+    header("Location: ./sellerreceivespage.php");
 }
 
 if ( isset($_POST["MyOrders"]))
@@ -163,7 +163,7 @@ if ( isset($_POST["MyOrders"]))
     <li>
         <form method = "post" >
 
-            <input type = "submit" name = "ReceivedOrderss" value =  "Received Orderss" >
+            <input type = "submit" name = "ReceivedOrders" value =  "Received Orders" >
         </form>
 
     </li>

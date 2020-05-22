@@ -54,6 +54,36 @@ else if (isset($_POST['submitBuy'])) {
     $statement->bindParam(':flowerID', $tmpID, PDO::PARAM_STR);
     $statement->execute();
 
+    $sql = "Select MAX(orderID) AS 'orderID' From orders";
+
+    $statement = $connection->prepare($sql);
+    $statement->execute();
+
+    $result = $statement->fetchAll();
+    foreach ($result as $row)
+        $tmporderID = $row['orderID'];
+
+    $sql = "Select * From seller_has WHERE flowerID = :flowerID";
+
+    $tmpID = $_GET['flowerid'];
+
+    $statement = $connection->prepare($sql);
+    $statement->bindParam(':flowerID', $tmpID, PDO::PARAM_STR);
+    $statement->execute();
+
+    $result = $statement->fetchAll();
+    foreach ($result as $row)
+        $tmpID = $row['sellerID'];
+
+    $sql = "INSERT INTO is_assigned(orderID, sellerID, customerID) VALUES (:orderID, :sellerID, :customerID)";
+    $tmpcustomerID = $_SESSION['accountID'];
+    $statement = $connection->prepare($sql);
+    $statement->bindParam(':orderID', $tmporderID, PDO::PARAM_STR);
+    $statement->bindParam(':sellerID', $tmpID, PDO::PARAM_STR);
+    $statement->bindParam(':customerID', $tmpcustomerID, PDO::PARAM_STR);
+    $statement->execute();
+
+
     header("Location: ./customermainpage.php");
 }
 ?>

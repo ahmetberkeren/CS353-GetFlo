@@ -69,6 +69,7 @@ if ( isset($_POST["MyOrders"]))
                     <th>Details</th>
                     <th>Amount</th>
                     <th>Price</th>
+                    <th>Buy</th>
                 </tr>
                 </thead>
                 <tbody>
