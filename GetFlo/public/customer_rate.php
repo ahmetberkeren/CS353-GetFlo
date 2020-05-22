@@ -9,7 +9,7 @@ if (isset($_POST['rate_seller'])) {
         $tmpID = $_GET['orderid'];
         $value = $_POST['rate_seller'];
         $answer = false;
-        $sql = "Update FlowerSeller Set rating = (rating * peopleRated + :value) / (peopleRated + 1), peopleRated = peopleRated + 1 Where sellerID = ( Select sellerID From Is_Assigned Where orderID = :orderID)";
+        $sql = "Update flowersellers Set rating = (rating * peopleRated + :value) / (peopleRated + 1), peopleRated = peopleRated + 1 Where sellerID = ( Select sellerID From Is_Assigned Where orderID = :orderID)";
         $statement = $connection->prepare($sql);
         $statement->bindValue(':orderID', $tmpID);
         $statement->bindValue(':value', $value);
@@ -25,7 +25,7 @@ if (isset($_POST['submit_courier'])) {
         $tmpID = $_GET['orderid'];
         $value = $_POST['rate_seller'];
         $answer = false;
-        $sql = "Update courier Set rating = (rating * peopleRated + :value) / (peopleRated + 1), peopleRated = peopleRated + 1 Where courierID = ( Select courierID From Is_Assigned Where orderID = :orderID";
+        $sql = "Update couriers Set rating = (rating * peopleRated + :value) / (peopleRated + 1), peopleRated = peopleRated + 1 Where courierID = ( Select courierID From Is_Assigned Where orderID = :orderID";
         $statement->bindValue(':value', $value);
          $statement = $connection->prepare($sql);
         $statement->bindValue(':orderID', $tmpID);
