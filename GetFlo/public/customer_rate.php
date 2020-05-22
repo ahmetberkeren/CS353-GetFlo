@@ -9,10 +9,12 @@ if (isset($_POST['rate_seller'])) {
         $tmpID = $_SESSION['orderID'];
         $subject = $_POST["subject"];
         $message = $_POST["message"];
+        $value = $_POST['rate_seller'];
         $answer = false;
-        $sql = "Update FlowerSeller Set rating = (rating * peopleRated + 8) / (peopleRated + 1), peopleRated = peopleRated + 1 Where sellerID = ( Select sellerID From Is_Assigned Where orderID = :orderID)";
+        $sql = "Update FlowerSeller Set rating = (rating * peopleRated + :value) / (peopleRated + 1), peopleRated = peopleRated + 1 Where sellerID = ( Select sellerID From Is_Assigned Where orderID = :orderID)";
         $statement = $connection->prepare($sql);
         $statement->bindValue(':orderID', $tmpID);
+        $statement->bindValue(':value', $value);
         $statement->execute();
     } catch (PDOException $error) {
         echo $sql . "<br>" . $error->getMessage();
@@ -23,11 +25,11 @@ if (isset($_POST['rate_courier'])) {
     try {
         $connection = new PDO($dsn, $username, $password, $options);
         $tmpID = $_SESSION['orderID'];
-        $subject = $_POST["subject"];
-        $message = $_POST["message"];
+        $value = $_POST['rate_seller'];
         $answer = false;
-        $sql = "Update courier Set rating = (rating * peopleRated + 5) / (peopleRated + 1), peopleRated = peopleRated + 1 Where courierID = ( Select courierID From Is_Assigned Where orderID = :orderID";
-        $statement = $connection->prepare($sql);
+        $sql = "Update courier Set rating = (rating * peopleRated + :value) / (peopleRated + 1), peopleRated = peopleRated + 1 Where courierID = ( Select courierID From Is_Assigned Where orderID = :orderID";
+        $statement->bindValue(':value', $value);
+         $statement = $connection->prepare($sql);
         $statement->bindValue(':orderID', $tmpID);
         $statement->execute();
     } catch (PDOException $error) {
