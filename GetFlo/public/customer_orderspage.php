@@ -7,7 +7,7 @@
         session_start();
             try {
                 $connection = new PDO($dsn, $username, $password, $options);
-                $sql = "Select orderID, status From orders Natural Join Customers Where usedID = :userID";
+                $sql = "Select orderID , status from orders where orderID in (Select orderID From is_assigned Where customerID = :userID)";
                 $temp = $_SESSION["accountID"];
                 $statement = $connection->prepare($sql);
                 $statement->bindParam(':userID', $temp, PDO::PARAM_STR);
@@ -15,6 +15,7 @@
                 $result = $statement->fetchAll();
 
             } catch(PDOException $error) {
+
                 echo $sql . "<br>" . $error->getMessage();
             }
                 ?>
@@ -74,6 +75,7 @@
                 </tbody>
             </table>
         <?php } else { ?>
-            > There is no oder.
+
+            > There is no order.
         <?php }?>
     <br>
