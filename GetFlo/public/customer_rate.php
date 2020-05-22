@@ -21,7 +21,7 @@ if (isset($_POST['rate_seller'])) {
     }
 }
 
-if (isset($_POST['rate_courier'])) {
+if (isset($_POST['submit_courier'])) {
     try {
         $connection = new PDO($dsn, $username, $password, $options);
         $tmpID = $_GET['orderid'];
@@ -58,8 +58,8 @@ echo "<h1 align='center' style = 'color: red'> {$tmpID} </h1>";
             <option value=8>8</option>
             <option value=9>9</option>
             <option value=10>10</option>
-
         </select>
+        <input type="submit" name="submit_rate" value="submit"/>
     </p>
 </li>
 <li align = "center"  >
@@ -79,6 +79,7 @@ echo "<h1 align='center' style = 'color: red'> {$tmpID} </h1>";
             <option value=10>10</option>
 
         </select>
+          <input type="submit" name="submit_courier" value="submit"/>
     </p>
 </li>
 
