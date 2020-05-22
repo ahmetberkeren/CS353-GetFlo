@@ -7,13 +7,31 @@ session_start();?>
 if(isset($_POST['back'])) {
     header("Location: ./couriermainpage.php");
 }
+
+if (isset($_GET["orderid"])) {
+    try {
+        $connection = new PDO($dsn, $username, $password, $options);
+
+        $id = $_GET["orderid"];
+
+        $sql = "Update orders Set status = 'Done' Where orderID = :orderID";
+
+        $statement = $connection->prepare($sql);
+        $statement->bindValue(':orderID', $id);
+        $statement->execute();
+
+
+    } catch(PDOException $error) {
+        echo $sql . "<br>" . $error->getMessage();
+    }
+}
 ?>
 <ul>
     <li>
         <?php
         $connection = new PDO($dsn, $username, $password, $options);
 
-        $sql = "Select * From orders NATURAL JOIN is_assigned Where orderID IN (Select orderID From is_assigned Natural Join couriers Where courierID = :ID AND is_accepted = true)";
+        $sql = "Select * From orders NATURAL JOIN is_assigned Where status <> 'Done' AND orderID IN (Select orderID From is_assigned Natural Join couriers Where courierID = :ID AND is_accepted = true)";
 
         $tmpID = $_SESSION['accountID'];
 
@@ -37,6 +55,7 @@ if(isset($_POST['back'])) {
                     <th>Payment Type</th>
                     <th>Delivery Type</th>
                     <th>Additional Notes</th>
+                    <th>Done</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -60,6 +79,7 @@ if(isset($_POST['back'])) {
                         <td><?php echo escape($row["payment_type"]); ?></td>
                         <td><?php echo escape($row["delivery_type"]); ?></td>
                         <td><?php echo escape($row["note"]); ?></td>
+                        <td><a href="courierorderspage.php?orderid=<?php echo escape($row["orderID"]); ?>">Done</a></td>
                     </tr>
                 <?php } ?>
                 </tbody>

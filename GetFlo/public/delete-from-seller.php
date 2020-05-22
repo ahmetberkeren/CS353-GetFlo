@@ -7,7 +7,8 @@ if (isset($_GET["id"])) {
 
     $id = $_GET["id"];
 
-    $sql = "DELETE FROM seller_has WHERE flowerID = :id";
+    $sql = "DELETE FROM seller_has WHERE flowerID = :id;
+            DELETE FROM flowers WHERE flowerID = :id";
 
     $statement = $connection->prepare($sql);
     $statement->bindValue(':id', $id);
