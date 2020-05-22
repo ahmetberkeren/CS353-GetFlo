@@ -7,8 +7,6 @@ if (isset($_POST['rate_seller'])) {
     try {
         $connection = new PDO($dsn, $username, $password, $options);
         $tmpID = $_GET['orderid'];
-        $subject = $_POST["subject"];
-        $message = $_POST["message"];
         $value = $_POST['rate_seller'];
         $answer = false;
         $sql = "Update FlowerSeller Set rating = (rating * peopleRated + :value) / (peopleRated + 1), peopleRated = peopleRated + 1 Where sellerID = ( Select sellerID From Is_Assigned Where orderID = :orderID)";
