@@ -3,6 +3,11 @@ require "../config.php";
 require "../common.php";
 session_start(); ?>
 <?php
+if(isset($_POST['back'])) {
+    header("Location: ./customermainpage.php");
+}
+?>
+<?php
 $connection = new PDO($dsn, $username, $password, $options);
 
 $sql = "Select * From flowers NATURAL JOIN seller_has Where flowerID = :flowerID";
@@ -102,6 +107,10 @@ else if (isset($_POST['submitBuy'])) {
         <input type="text" name="ordernote" id="ordernote">
         <input type="submit" name="submitBuy" value="Buy">
     </form>
-
+<form method="post">
+    <li>
+        <input type="submit" name="back"
+               class="button" value="Cancel" /></li>
+</form>
 
 <?php include "templates/footer.php"; ?>

@@ -361,11 +361,8 @@ if (isset($_POST['submitLogin'])) {
                 <input type="text" name="grusername" id="grusername">
                 <label for="grpassword">Password</label>
                 <input type="text" name="grpassword" id="grpassword">
-                <label for="couphonenumber">Phone Number</label>
                 <input type="submit" name="submitGrower" value="Sign Up">
             </form>
 
         </li>
     </ul>
-
-<?php include "templates/footer.php"; ?>
