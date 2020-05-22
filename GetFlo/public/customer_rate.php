@@ -6,7 +6,7 @@ session_start(); ?>
 if (isset($_POST['rate_seller'])) {
     try {
         $connection = new PDO($dsn, $username, $password, $options);
-        $tmpID = $_SESSION['orderID'];
+        $tmpID = $_GET['orderid'];
         $subject = $_POST["subject"];
         $message = $_POST["message"];
         $value = $_POST['rate_seller'];
@@ -24,7 +24,7 @@ if (isset($_POST['rate_seller'])) {
 if (isset($_POST['rate_courier'])) {
     try {
         $connection = new PDO($dsn, $username, $password, $options);
-        $tmpID = $_SESSION['orderID'];
+        $tmpID = $_GET['orderid'];
         $value = $_POST['rate_seller'];
         $answer = false;
         $sql = "Update courier Set rating = (rating * peopleRated + :value) / (peopleRated + 1), peopleRated = peopleRated + 1 Where courierID = ( Select courierID From Is_Assigned Where orderID = :orderID";
@@ -38,7 +38,7 @@ if (isset($_POST['rate_courier'])) {
 }
 ?>
 <?php
-$tmpID = $_SESSION['orderID'];
+$tmpID = $_GET['orderid'];
 echo "<h1 align='center' style = 'color: red'> {$tmpID} </h1>";
 ?>
 <html>
