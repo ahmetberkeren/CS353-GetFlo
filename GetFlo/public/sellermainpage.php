@@ -36,7 +36,7 @@ if ( isset($_POST["MyOrders"]))
             try {
                 $connection = new PDO($dsn, $username, $password, $options);
 
-                $sql = "Select * From flowers  Where kind = :kind and flowerID in (select flowerID from seller_has where seller_stock > 0)";
+                $sql = "Select * From flowers NATURAL JOIN seller_has Where kind = :kind AND seller_stock > 0";
 
                 $tmpkind = $_GET["kind"];
 
@@ -53,7 +53,7 @@ if ( isset($_POST["MyOrders"]))
         else {
             $connection = new PDO($dsn, $username, $password, $options);
 
-            $sql = "Select * From flowers  Where flowerID in (select flowerID from seller_has where seller_stock > 0)";
+            $sql = "Select * From flowers NATURAL JOIN seller_has Where seller_stock > 0";
 
 
             $statement = $connection->prepare($sql);
@@ -102,7 +102,7 @@ if ( isset($_POST["MyOrders"]))
                         <td><?php echo escape($row["colour"]); ?></td>
                         <td><?php echo escape($row["scent"]); ?></td>
                         <td><?php echo escape($row["details"]); ?></td>
-                        <td><?php echo escape($row["amount"]); ?></td>
+                        <td><?php echo escape($row["seller_stock"]); ?></td>
                         <td><?php echo escape($row["price"]); ?>TL</td>
                         <td><a href="delete-from-seller.php?id=<?php echo escape($row["flowerID"]); ?>">Remove</a></td>
                     </tr>
@@ -118,7 +118,7 @@ if ( isset($_POST["MyOrders"]))
     <?php
     $connection = new PDO($dsn, $username, $password, $options);
 
-    $sql = "Select distinct kind From flowers  Where amount > 0";
+    $sql = "Select distinct kind From flowers NATURAL JOIN seller_has Where seller_stock > 0";
 
     $tmpID = $_SESSION['accountID'];
 
@@ -137,7 +137,7 @@ if ( isset($_POST["MyOrders"]))
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($result as $row) { ?>
+        <?php foreach ($kindresult as $row) { ?>
             <tr>
                 <td><a href="sellermainpage.php?kind=<?php echo escape($row["kind"]); ?>"><?php echo escape($row["kind"]); ?></a></td>
             </tr>
